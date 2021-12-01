@@ -29,10 +29,10 @@ app.layout = html.Div(
             children = [
                 html.P(children="📉", className="header-emoji"),
                 html.H1(
-                    children="Stock Exchange Analytics",className="header-title",
+                    children="NIFTY-50 Stocks Analytics",className="header-title",
                 ),
                 html.P(
-                    children="Analyzing day wise high and low prices of indexes.",className="header-description",
+                    children="NIFTY-50 Stock Market Data (2000 - 2021) . Stock price data of the fifty stocks in NIFTY-50 index from NSE India",className="header-description",
                 ),
             ],
             className="header",
