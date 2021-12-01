@@ -8,7 +8,6 @@ import numpy as np
 from dash.dependencies import Output, Input
 
 data = pd.read_csv("NIFTY50.csv")
-#data = data.query("type == 'conventional' and region == 'Albany'")
 data["Date"] = pd.to_datetime(data["Date"], format="%Y-%m-%d")
 data.sort_values("Date", inplace=True)
 
@@ -44,7 +43,7 @@ app.layout = html.Div(
                     children=[
                         html.Div(children="Share", className="menu-title"),
                         dcc.Dropdown(
-                            id="region-filter",
+                            id="share-filter",
                             options=[
                                 {"label": share, "value": share}
                                 for share in np.sort(data.Symbol.unique())
@@ -92,32 +91,14 @@ app.layout = html.Div(
                 html.Div(
                     children =
                         dcc.Graph(
-                            figure={
-                                "data": [
-                                    {
-                                        "x": data["Date"],
-                                        "y": data["High"],
-                                        "type": "lines",
-                                    },
-                                ],
-                                "layout": {"title": "Day-wise closing prices of indexes"},
-                            },
+                            id="high-price-chart", config={"displayModeBar": False},
                         ),
                         className="card",
                 ),
                 html.Div(
                     children = 
                         dcc.Graph(
-                            figure={
-                                "data": [
-                                    {
-                                        "x": data["Date"],
-                                        "y": data["Low"],
-                                        "type": "lines",
-                                    },
-                                ],
-                                "layout": {"title": "Day-wise opening prices of indexes"},
-                            },
+                            id="low-price-chart", config={"displayModeBar": False},
                         ),
                         className="card",
                 ),
@@ -128,9 +109,9 @@ app.layout = html.Div(
 )
 
 @app.callback(
-    [Output("open-price-chart", "figure"), Output("close-price-chart", "figure")],
+    [Output("open-price-chart", "figure"), Output("close-price-chart", "figure") , Output("high-price-chart", "figure") , Output("low-price-chart", "figure")],
     [
-        Input("region-filter", "value"),
+        Input("share-filter", "value"),
         Input("date-range", "start_date"),
         Input("date-range", "end_date"),
     ],
@@ -153,7 +134,7 @@ def update_charts(share,start_date, end_date):
         ],
         "layout": {
             "title": {
-                "text": "Opening Price of Indexes",
+                "text": "Opening Price of Share.",
                 "x": 0.05,
                 "xanchor": "left",
             },
@@ -173,7 +154,7 @@ def update_charts(share,start_date, end_date):
         ],
         "layout": {
             "title": {
-                "text": "Closing Price of indexes.",
+                "text": "Closing Price of Share.",
                 "x": 0.05,
                 "xanchor": "left"
             },
@@ -182,7 +163,49 @@ def update_charts(share,start_date, end_date):
             "colorway": ["#E12D39"],
         },
     }
-    return open_price_chart_figure, close_price_chart_figure
+    
+    high_price_chart_figure = {
+        "data": [
+            {
+                "x": filtered_data["Date"],
+                "y": filtered_data["High"],
+                "type": "lines",
+                "hovertemplate": "$%{y:.2f}<extra></extra>",
+            },
+        ],
+        "layout": {
+            "title": {
+                "text": "Highest Price of Share.",
+                "x": 0.05,
+                "xanchor": "left",
+            },
+            "xaxis": {"fixedrange": True},
+            "yaxis": {"tickprefix": "$", "fixedrange": True},
+            "colorway": ["#3333ff"],
+        },
+    }
+    
+    low_price_chart_figure = {
+        "data": [
+            {
+                "x": filtered_data["Date"],
+                "y": filtered_data["Low"],
+                "type": "lines",
+                "hovertemplate": "$%{y:.2f}<extra></extra>",
+            },
+        ],
+        "layout": {
+            "title": {
+                "text": "Lowest Price of Share.",
+                "x": 0.05,
+                "xanchor": "left",
+            },
+            "xaxis": {"fixedrange": True},
+            "yaxis": {"tickprefix": "$", "fixedrange": True},
+            "colorway": ["#ffff00"],
+        },
+    }
+    return open_price_chart_figure, close_price_chart_figure , high_price_chart_figure , low_price_chart_figure
 
 if __name__ == "__main__":
     app.run_server(debug=True)
