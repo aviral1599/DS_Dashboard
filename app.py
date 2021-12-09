@@ -142,7 +142,7 @@ def update_charts(share,start_date, end_date):
                 "x": filtered_data["Date"],#x data
                 "y": filtered_data["Open"],#y data
                 "type": "lines",# type of graph
-                "hovertemplate": "$%{y:.2f}<extra></extra>",#hovertext
+                "hovertemplate": "Rs%{y:.2f}<extra></extra>",#hovertext
             },
         ],
         #specifying layout attributes of the graph
@@ -153,7 +153,7 @@ def update_charts(share,start_date, end_date):
                 "xanchor": "left", #sets title horizontal alignment with respect to its x position 
             },
             "xaxis": {"fixedrange": True},#xaxis range
-            "yaxis": {"tickprefix": "$", "fixedrange": True},#yaxis range
+            "yaxis": {"tickprefix": "Rs", "fixedrange": True},#yaxis range
             "colorway": ["#17B897"],#sets the graoh color
         },
     }
@@ -184,7 +184,7 @@ def update_charts(share,start_date, end_date):
                 "x": filtered_data["Date"],
                 "y": filtered_data["High"],
                 "type": "lines",
-                "hovertemplate": "$%{y:.2f}<extra></extra>",
+                "hovertemplate": "Rs%{y:.2f}<extra></extra>",
             },
         ],
         "layout": {
@@ -194,7 +194,7 @@ def update_charts(share,start_date, end_date):
                 "xanchor": "left",
             },
             "xaxis": {"fixedrange": True},
-            "yaxis": {"tickprefix": "$", "fixedrange": True},
+            "yaxis": {"tickprefix": "Rs", "fixedrange": True},
             "colorway": ["#3333ff"],
         },
     }
@@ -205,7 +205,7 @@ def update_charts(share,start_date, end_date):
                 "x": filtered_data["Date"],
                 "y": filtered_data["Low"],
                 "type": "lines",
-                "hovertemplate": "$%{y:.2f}<extra></extra>",
+                "hovertemplate": "Rs%{y:.2f}<extra></extra>",
             },
         ],
         "layout": {
@@ -215,7 +215,7 @@ def update_charts(share,start_date, end_date):
                 "xanchor": "left",
             },
             "xaxis": {"fixedrange": True},
-            "yaxis": {"tickprefix": "$", "fixedrange": True},
+            "yaxis": {"tickprefix": "Rs", "fixedrange": True},
             "colorway": ["#ffff00"],
         },
     }
